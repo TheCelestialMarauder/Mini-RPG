@@ -6,7 +6,7 @@ import { enemies, Enemy } from '../models/enemy.js';
 
 //Function to do damage to an enemy
 // Calculates the damage dealt to the enemy by the player
-function attackEnemy(Player, Enemy) {
+function attackToEnemy(Player, Enemy) {
 
     // Calculates the damage dealt to the enemy after enemy's defense
     let damage = Player.attackPower - Enemy.defensePower;
@@ -31,5 +31,40 @@ function attackEnemy(Player, Enemy) {
 
     // Return the enemy's alive status
     return Enemy.alive;
+
+}
+
+function attackToPlayer(Enemy, Player) {
+    // Calculates the damage dealt to the player after player's defense
+    if (Player.isDefending === true) {
+        console.log(`${Player.name} is defending!`);
+        let damage = Enemy.attackPower - Player.defensePower;
+        // If damage is negative, set it to 0
+        if (damage < 0) {
+            damage = 0;
+        }
+        
+        // Apply the damage to the player's life
+        Player.life -= damage;
+
+    } else if (Enemy.cooldown <= 0) {
+        console.log(`${Enemy.name} is attacking!`);
+        // Calculates the damage dealt to the player
+        Player.life -= Enemy.attackPower;
+    }
+    
+    // Check if the player is still alive
+    if (Player.life <=0) {
+        console.log(`${Enemy.name} defeated ${Player.name}!`);
+    } 
+    else {
+        console.log(`${Player.name} has ${Player.life} life left.`);
+    }
+
+    // Reset player's defending status
+    Player.isDefending = false;
+
+    // Return if the player is still alive
+    return Player.life > 0;
 
 }

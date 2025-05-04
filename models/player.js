@@ -4,4 +4,5 @@ export const Player = {
     life: 100,
     attackPower: 25,
     defensePower: 10,
+    isDefending: false,
 }
