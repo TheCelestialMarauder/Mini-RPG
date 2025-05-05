@@ -34,6 +34,8 @@ function attackToEnemy(Player, Enemy) {
 
 }
 
+// Function to do damage to a player
+// Calculates the damage dealt to the player by the enemy
 function attackToPlayer(Enemy, Player) {
     // Calculates the damage dealt to the player after player's defense
     if (Player.isDefending === true) {
@@ -67,4 +69,27 @@ function attackToPlayer(Enemy, Player) {
     // Return if the player is still alive
     return Player.life > 0;
 
+}
+
+// Function to start the game
+function startGame() {
+    console.log("Game started!");
+    console.log(`Player: ${Player.name}, Life: ${Player.life}`);
+    console.log("Enemies:");
+
+    enemies.forEach(enemy => {
+
+        console.log(`${enemy.name}, Life: ${enemy.life}`);
+
+        // Player attacks the enemy
+        attackToEnemy(Player, enemy);
+
+        if (enemy.alive) {
+            // Enemy attacks the player
+            attackToPlayer(enemy, Player);
+        } else {
+            console.log(`${enemy.name} is defeated!`);
+        }
+
+    });
 }
