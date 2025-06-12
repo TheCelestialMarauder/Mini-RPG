@@ -6,16 +6,6 @@ export const Enemy = {
     defensePower: 10,
     alive: true,
     cooldown: 0,
-    /*
-    setInitialCooldown: function() {
-        if (this.attackPower <= 50) {
-            this.cooldown++;
-        } else {
-            this.cooldown = 0;
-        }
-    },
-    */
-
 }
 
 // Enemies list
