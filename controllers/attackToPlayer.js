@@ -1,4 +1,4 @@
-function attackToPlayer(Enemy, Player) {
+export function attackToPlayer(Enemy, Player) {
     let damage = 0;
 
     // If player is defending

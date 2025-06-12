@@ -1,4 +1,4 @@
-function attackToEnemy(Player, Enemy) {
+export function attackToEnemy(Player, Enemy) {
     // Calculate damage after enemy defense
     let damage = Player.attackPower - Enemy.defensePower;
     // Ensure damage is not negative
