@@ -7,9 +7,10 @@ import { attackToPlayer } from './attackToPlayer.js';
 // Global variables
 let currentEnemyIndex = 0;
 let currentEnemy = null;
+let gameOver = false;
 
 // Initialize enemies with cooldowns
-function initializeEnemies() {
+export function initializeEnemies() {
     enemies.forEach(enemy => {
         // Set initial cooldown based on attack power
         enemy.attackCooldown = Math.floor(enemy.attackPower / 50);
@@ -22,7 +23,7 @@ function initializeEnemies() {
 }
 
 // Start the game
-function startGame() {
+export function startGame() {
     console.log("Game started!");
     console.log(`Player: ${Player.name}, Life: ${Player.life}`);
     
@@ -30,12 +31,10 @@ function startGame() {
 
     currentEnemy = enemies[currentEnemyIndex];
     console.log(`First enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`);
-
-    runCombatLoop();
 }
 
-// Combat loop (automatic for now)
-function runCombatLoop() {
+/* Combat loop (automatic for now)
+export function runCombatLoop() {
     while (Player.life > 0 && currentEnemyIndex < enemies.length) {
         console.log(`\nTurn against ${currentEnemy.name}:`);
 
@@ -65,5 +64,46 @@ function runCombatLoop() {
         }
     }
 }
+*/
 
-export { startGame };
+// Player chooses to attack
+export function playerTurnAttack() {
+    if (gameOver) return;
+
+    const enemyAlive = attackToEnemy(Player, currentEnemy);
+
+    if (!enemyAlive) {
+        currentEnemyIndex++;
+
+        if (currentEnemyIndex >= enemies.length) {
+            console.log("You win! All enemies defeated.");
+            gameOver = true;
+            return;
+        }
+
+        currentEnemy = enemies[currentEnemyIndex];
+        console.log(`Next enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`);
+    }
+
+    enemyTurn();
+}
+
+// Player chooses to defend
+export function playerTurnDefend() {
+    if (gameOver) return;
+
+    Player.isDefending = true;
+    console.log(`${Player.name} is defending this turn!`);
+    enemyTurn();
+}
+
+// Enemy's turn
+export function enemyTurn() {
+
+    const playerAlive = attackToPlayer(currentEnemy, Player);
+    if (gameOver) return;
+    if (!playerAlive) {
+        console.log("You have been defeated! Game over.");
+        gameOver = true;
+    }
+}
