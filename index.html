@@ -1,28 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Mini RPG</title>
-  <script type="module" src="./main.js" defer></script>
+  <script type="module" src="./main.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white font-mono flex flex-col items-center justify-center min-h-screen p-4">
+<body class="bg-gray-900 text-white p-6">
 
-  <!-- Player stats -->
-  <div id="player-stats" class="absolute top-4 left-4 bg-gray-800 p-4 rounded-lg shadow-lg">
-    <h2 class="text-lg font-bold" id="player-name">Player: Slayer</h2>
-    <p>Life: <span id="player-life">100</span></p>
-  </div>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
-  <!-- Log box -->
-  <div id="log-box" class="bg-black text-green-400 w-full max-w-xl h-64 overflow-y-auto p-4 border-2 border-green-500 rounded-lg mb-6">
-    <p class="text-sm italic">Game log will appear here...</p>
-  </div>
+    <!-- Player stats -->
+    <div class="md:col-span-1 bg-gray-800 p-4 rounded-xl shadow">
+      <h2 class="text-xl font-bold mb-4">Player Stats</h2>
+      <p><strong>Name:</strong> <span id="playerName">Player</span></p>
+      <p><strong>Life:</strong> <span id="playerLife">100</span></p>
+      <div class="w-full bg-gray-700 rounded-full h-4 mb-2">
+        <div id="playerHealthBar" class="bg-green-500 h-4 rounded-full" style="width: 100%;"></div>
+      </div>
+      <p><strong>Score:</strong> <span id="playerScore">0</span></p>
+    </div>
 
-  <!-- Controls -->
-  <div class="flex gap-4">
-    <button id="attack-button" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-white font-bold">Attack</button>
-    <button id="defend-button" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white font-bold">Defend</button>
+    <!-- Logs -->
+    <div class="md:col-span-2 bg-gray-800 p-4 rounded-xl shadow h-96 overflow-y-scroll" id="logBox">
+      <h2 class="text-xl font-bold mb-4">Combat Logs</h2>
+      <div id="logs" class="space-y-2 h-64 overflow-y-auto"></div>
+    </div>
+
+    <!-- Enemy info and Actions -->
+    <div class="md:col-span-1 bg-gray-800 p-4 rounded-xl shadow flex flex-col justify-between">
+      <div>
+        <h2 class="text-xl font-bold mb-4">Enemy Info</h2>
+        <p><strong>Name:</strong> <span id="enemyName">Enemy</span></p>
+        <p><strong>Life:</strong> <span id="enemyLife">100</span></p>
+        <div class="w-full bg-gray-700 rounded-full h-4 mb-2">
+          <div id="enemyHealthBar" class="bg-red-500 h-4 rounded-full" style="width: 100%;"></div>
+        </div>
+        <p><strong>Cooldown:</strong> <span id="enemyCooldown">0</span></p>
+      </div>
+      <div class="space-y-2 mt-4">
+        <button id="attackBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Attack
+        </button>
+        <button id="defendBtn" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+          Defend
+        </button>
+      </div>
+    </div>
+
   </div>
 
 </body>
