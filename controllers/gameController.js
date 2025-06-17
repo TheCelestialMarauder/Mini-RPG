@@ -3,17 +3,19 @@ import { Player } from '../models/player.js';
 import { enemies } from '../models/enemy.js';
 import { attackToEnemy } from './attackToEnemy.js';
 import { attackToPlayer } from './attackToPlayer.js';
+import { addLog, updatePlayerLife } from '../main.js';
 
 // Global variables
 let currentEnemyIndex = 0;
 let currentEnemy = null;
 let gameOver = false;
+let shuffledEnemies = [];
 
 // Initialize enemies with cooldowns
 export function initializeEnemies() {
     enemies.forEach(enemy => {
         // Set initial cooldown based on attack power
-        enemy.attackCooldown = Math.floor(enemy.attackPower / 50);
+        enemy.attackCooldown = Math.floor(enemy.attackPower / 10);
         if (enemy.attackCooldown < 1) {
             enemy.attackCooldown = 0;
         }
@@ -22,67 +24,43 @@ export function initializeEnemies() {
     console.log("Enemies initialized with cooldowns.");
 }
 
+// Shuffle enemies for random order
+function shuffleEnemies(enemies) {
+    return enemies.sort(() => Math.random() - 0.5);
+}
+
 // Start the game
 export function startGame() {
     console.log("Game started!");
-    console.log(`Player: ${Player.name}, Life: ${Player.life}`);
-    
+    addLog("Game started!");
+    addLog(`Player: ${Player.name}, Life: ${Player.life}`);
+    updatePlayerLife(Player.life);
+
     initializeEnemies();
-
-    currentEnemy = enemies[currentEnemyIndex];
-    console.log(`First enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`);
+    shuffledEnemies = shuffleEnemies([...enemies]);
+    currentEnemy = shuffledEnemies[currentEnemyIndex];
+    addLog(`First enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`);
 }
-
-/* Combat loop (automatic for now)
-export function runCombatLoop() {
-    while (Player.life > 0 && currentEnemyIndex < enemies.length) {
-        console.log(`\nTurn against ${currentEnemy.name}:`);
-
-        // Player attacks
-        const enemyAlive = attackToEnemy(Player, currentEnemy);
-
-        if (!enemyAlive) {
-            console.log(`${currentEnemy.name} defeated!`);
-            currentEnemyIndex++;
-
-            if (currentEnemyIndex >= enemies.length) {
-                console.log("You win! All enemies defeated.");
-                break;
-            }
-
-            currentEnemy = enemies[currentEnemyIndex];
-            console.log(`Next enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`);
-            continue;
-        }
-
-        // Enemy attacks if not dead
-        const playerAlive = attackToPlayer(currentEnemy, Player);
-
-        if (!playerAlive) {
-            console.log("You have been defeated! Game over.");
-            break;
-        }
-    }
-}
-*/
 
 // Player chooses to attack
 export function playerTurnAttack() {
     if (gameOver) return;
 
     const enemyAlive = attackToEnemy(Player, currentEnemy);
+    updatePlayerLife(Player.life);
 
     if (!enemyAlive) {
         currentEnemyIndex++;
 
-        if (currentEnemyIndex >= enemies.length) {
-            console.log("You win! All enemies defeated.");
+        if (currentEnemyIndex >= shuffledEnemies.length) {
+            addLog("You win! All enemies defeated.");
             gameOver = true;
             return;
         }
 
-        currentEnemy = enemies[currentEnemyIndex];
-        console.log(`Next enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`);
+        currentEnemy = shuffledEnemies[currentEnemyIndex];
+        addLog(`${shuffledEnemies[currentEnemyIndex - 1].name} defeated!`);
+        addLog(`Next enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`);
     }
 
     enemyTurn();
@@ -93,17 +71,20 @@ export function playerTurnDefend() {
     if (gameOver) return;
 
     Player.isDefending = true;
-    console.log(`${Player.name} is defending this turn!`);
+    addLog(`${Player.name} is defending this turn!`);
     enemyTurn();
 }
 
 // Enemy's turn
 export function enemyTurn() {
+    if (gameOver) return;
 
     const playerAlive = attackToPlayer(currentEnemy, Player);
-    if (gameOver) return;
+    updatePlayerLife(Player.life);
+
     if (!playerAlive) {
-        console.log("You have been defeated! Game over.");
+        addLog(`${currentEnemy.name} defeated ${Player.name}!`);
+        addLog("You have been defeated! Game over.");
         gameOver = true;
     }
 }
