@@ -55,9 +55,6 @@ This project helps reinforce:
 mini-rpg/
 ├── index.html
 ├── README.md
-├── /assets/              # UI assets, icons, etc.
-├── /styles/              # TailwindCSS styles
-│   └── main.css
 ├── /models/              # Player, Enemy, and Item classes
 │   ├── player.js
 │   ├── enemy.js
@@ -68,8 +65,6 @@ mini-rpg/
 │   └── attackToPlayer.js   # Enemy's attack logic
 ├── /utils/               # Helper systems (item drops)
 │   └── itemDrop.js         # Drop generation and UI rendering
-├── /views/               # View layer updates
-│   └── view.js             # Updates UI: health bars, score, logs, etc.
 └── main.js              # Entry point, event listeners, state bindings
 ```
 
