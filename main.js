@@ -81,6 +81,7 @@ export function updatePlayerScore(score) {
   playerScoreSpan.textContent = score;
 }
 
+// Update inventory display
 export function updateInventory(items) {
   inventoryContainer.innerHTML = '';
 
@@ -105,3 +106,8 @@ export function updateInventory(items) {
     inventoryContainer.appendChild(slot);
   }
 }
+
+// Restart the game
+document.getElementById('restartBtn').addEventListener('click', () => {
+  location.reload();
+});
