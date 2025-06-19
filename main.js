@@ -8,9 +8,11 @@ const playerHealthBar = document.getElementById('playerHealthBar');
 const enemyHealthBar = document.getElementById('enemyHealthBar');
 const logsContainer = document.getElementById('logs');
 const playerScoreSpan = document.getElementById('playerScore');
+const inventoryContainer = document.getElementById('inventory');
 
-// Game Logic
+// imports
 import { startGame, playerTurnAttack, playerTurnDefend, getCurrentEnemyCooldown } from './controllers/gameController.js';
+import { useItemAt } from './controllers/itemUse.js';
 
 // Start the game
 startGame();
@@ -77,4 +79,29 @@ export function updatePlayerName(name) {
 // Update score
 export function updatePlayerScore(score) {
   playerScoreSpan.textContent = score;
+}
+
+export function updateInventory(items) {
+  inventoryContainer.innerHTML = '';
+
+  items.forEach((item, index) => {
+    const slot = document.createElement('div');
+    
+    slot.className = "bg-gray-800 text-white p-2 m-1 rounded border border-gray-500 cursor-pointer hover:bg-gray-700 text-sm text-center";
+    slot.textContent = item.name;
+    
+    slot.addEventListener('click', () => {
+      const enemy = window.currentEnemy;
+      useItemAt(index, enemy);
+    });
+
+    inventoryContainer.appendChild(slot);
+  });
+
+  const emptySlots = 9 - inventory.length;
+  for (let i = 0; i < emptySlots; i++) {
+    const slot = document.createElement('div');
+    slot.className = "bg-gray-900 opacity-30 p-2 m-1 rounded border border-gray-600";
+    inventoryContainer.appendChild(slot);
+  }
 }

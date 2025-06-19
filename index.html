@@ -19,6 +19,11 @@
         <div id="playerHealthBar" class="bg-green-500 h-4 rounded-full" style="width: 100%;"></div>
       </div>
       <p><strong>Score:</strong> <span id="playerScore">0</span></p>
+      <div class="mt-4 bg-gray-800 p-4 rounded-xl shadow">
+        <h2 class="text-lg font-bold mb-2">Inventory</h2>
+        <div id="inventory" class="grid grid-cols-3 gap-2"></div>
+      </div>
+
     </div>
 
     <!-- Logs -->
@@ -26,6 +31,10 @@
       <h2 class="text-xl font-bold mb-4">Combat Logs</h2>
       <div id="logs" class="space-y-2 h-64 overflow-y-auto"></div>
     </div>
+
+    <!-- Item Drops -->
+    <div id="dropOptions" class="flex flex-wrap gap-4 justify-center mt-6"></div>
+
 
     <!-- Enemy info and Actions -->
     <div class="md:col-span-1 bg-gray-800 p-4 rounded-xl shadow flex flex-col justify-between">

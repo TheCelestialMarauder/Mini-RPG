@@ -10,7 +10,7 @@ export function attackToPlayer(Enemy, Player) {
         // Calculate damage considering defense
         damage = Enemy.attackPower - Player.defensePower;
         // Ensure damage is not negative
-        if (damage < 0) {
+        if (damage < 0) {   
             damage = 0;
         }
 
@@ -38,7 +38,7 @@ export function attackToPlayer(Enemy, Player) {
     Player.isDefending = false;
 
     // Update UI with new life
-    updatePlayerLife(Player.life);
+    updatePlayerLife(Player.life, Player.maxLife);
 
     // Log result
     if (Player.life <= 0) {

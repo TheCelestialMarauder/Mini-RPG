@@ -1,9 +1,10 @@
 // Imports
-import { Player } from '../models/player.js';
+import { player } from '../models/player.js';
 import { enemies } from '../models/enemy.js';
 import { attackToEnemy } from './attackToEnemy.js';
 import { attackToPlayer } from './attackToPlayer.js';
 import { addLog, updatePlayerLife, updateEnemyLifeAndName, updatePlayerScore } from '../main.js';
+import { generateDropOptions, showDropOptions } from '../utils/itemDrop.js';
 
 // Global variables
 let currentEnemyIndex = 0;
@@ -33,8 +34,8 @@ function shuffleEnemies(enemies) {
 export function startGame() {
     console.log("Game started!");
     addLog("Game started!", "player");
-    addLog(`Player: ${Player.name}, Life: ${Player.life}`, "player");
-    updatePlayerLife(Player.life, Player.maxLife);
+    addLog(`Player: ${player.name}, Life: ${player.life}`, "player");
+    updatePlayerLife(player.life, player.maxLife);
 
     initializeEnemies();
     shuffledEnemies = shuffleEnemies([...enemies]);
@@ -47,13 +48,13 @@ export function startGame() {
 export function playerTurnAttack() {
     if (gameOver) return;
 
-    const enemyAlive = attackToEnemy(Player, currentEnemy);
-    updatePlayerLife(Player.life, Player.maxLife);
+    const enemyAlive = attackToEnemy(player, currentEnemy);
+    updatePlayerLife(player.life, player.maxLife);
 
     if (!enemyAlive) {
         const scoreGained = currentEnemy.maxLife || currentEnemy.life;
-        Player.score += scoreGained;
-        updatePlayerScore(Player.score);
+        player.score += scoreGained;
+        updatePlayerScore(player.score);
 
         currentEnemyIndex++;
 
@@ -64,7 +65,14 @@ export function playerTurnAttack() {
         }
 
         addLog(`${currentEnemy.name} defeated!`, "player");
+
+        const dropOptions = generateDropOptions();
+        showDropOptions(dropOptions);
+
+        window.currentDropOptions = dropOptions;
+
         currentEnemy = shuffledEnemies[currentEnemyIndex];
+        window.currentEnemy = currentEnemy;
         addLog(`Next enemy: ${currentEnemy.name}, Life: ${currentEnemy.life}`, "enemy");
         updateEnemyLifeAndName(currentEnemy.name, currentEnemy.life, currentEnemy.maxLife);
     }
@@ -76,8 +84,8 @@ export function playerTurnAttack() {
 export function playerTurnDefend() {
     if (gameOver) return;
 
-    Player.isDefending = true;
-    addLog(`${Player.name} is defending this turn!`, "player");
+    player.isDefending = true;
+    addLog(`${player.name} is defending this turn!`, "player");
     enemyTurn();
 }
 
@@ -85,11 +93,11 @@ export function playerTurnDefend() {
 export function enemyTurn() {
     if (gameOver) return;
 
-    const playerAlive = attackToPlayer(currentEnemy, Player);
-    updatePlayerLife(Player.life, Player.maxLife);
+    const playerAlive = attackToPlayer(currentEnemy, player);
+    updatePlayerLife(player.life, player.maxLife);
 
     if (!playerAlive) {
-        addLog(`${currentEnemy.name} defeated ${Player.name}!`, "enemy");
+        addLog(`${currentEnemy.name} defeated ${player.name}!`, "enemy");
         addLog("You have been defeated! Game over.", "enemy");
         gameOver = true;
     }

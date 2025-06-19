@@ -1,34 +1,36 @@
-// Enemy model goes here
-export const Enemy = {
-    name: "Monster",
-    life: 100,
-    maxLife: 100,
-    attackPower: 25,
-    defensePower: 10,
-    alive: true,
-    cooldown: 0,
+export class Enemy {
+  constructor(name, life, attackPower, defensePower) {
+    this.name = name;
+    this.life = life;
+    this.maxLife = life;
+    this.attackPower = attackPower;
+    this.defensePower = defensePower;
+    this.alive = true;
+    this.attackCooldown = Math.floor(attackPower / 10) || 0;
+    this.currentCooldown = 0;
+  }
 }
 
 // Enemies list
 export const enemies = [
-    { name: "Goblin", life: 60, maxLife: 60, attackPower: 15, defensePower: 5 , alive: true },
-    { name: "Orc", life: 80, maxLife: 80, attackPower: 20, defensePower: 8 , alive: true },
-    { name: "Troll", life: 100, maxLife: 100, attackPower: 25, defensePower: 10 , alive: true },
-    { name: "Dragon", life: 150, maxLife: 150, attackPower: 30, defensePower: 15 , alive: true },
-    { name: "Vampire", life: 120, maxLife: 120, attackPower: 28, defensePower: 12 , alive: true },
-    { name: "Zombie", life: 70, maxLife: 70, attackPower: 18, defensePower: 6 , alive: true },
-    { name: "Skeleton", life: 50, maxLife: 50, attackPower: 12, defensePower: 4 , alive: true },
-    { name: "Werewolf", life: 90, maxLife: 90, attackPower: 22, defensePower: 9 , alive: true },
-    { name: "Mummy", life: 75, maxLife: 75, attackPower: 19, defensePower: 7 , alive: true },
-    { name: "Golem", life: 110, maxLife: 110, attackPower: 27, defensePower: 13 , alive: true },
-    { name: "Banshee", life: 85, maxLife: 85, attackPower: 24, defensePower: 11 , alive: true },
-    { name: "Hydra", life: 130, maxLife: 130, attackPower: 32, defensePower: 16 , alive: true },
-    { name: "Griffin", life: 95, maxLife: 95, attackPower: 23, defensePower: 10 , alive: true },
-    { name: "Minotaur", life: 105, maxLife: 105, attackPower: 26, defensePower: 14 , alive: true },
-    { name: "Phoenix", life: 140, maxLife: 140, attackPower: 35, defensePower: 18 , alive: true },
-    { name: "Chimera", life: 125, maxLife: 125, attackPower: 30, defensePower: 15 , alive: true },
-    { name: "Kraken", life: 150, maxLife: 150, attackPower: 40, defensePower: 20 , alive: true },
-    { name: "Cerberus", life: 115, maxLife: 115, attackPower: 29, defensePower: 14 , alive: true },
-    { name: "Wraith", life: 80, maxLife: 80, attackPower: 21, defensePower: 9 , alive: true },
-    { name: "Lich", life: 90, maxLife: 90, attackPower: 22, defensePower: 10 , alive: true }
+  new Enemy("Goblin", 60, 15, 5),
+  new Enemy("Orc", 80, 20, 8),
+  new Enemy("Troll", 100, 25, 10),
+  new Enemy("Dragon", 150, 30, 15),
+  new Enemy("Vampire", 120, 28, 12),
+  new Enemy("Zombie", 70, 18, 6),
+  new Enemy("Skeleton", 50, 12, 4),
+  new Enemy("Werewolf", 90, 22, 9),
+  new Enemy("Mummy", 75, 19, 7),
+  new Enemy("Golem", 110, 27, 13),
+  new Enemy("Banshee", 85, 24, 11),
+  new Enemy("Hydra", 130, 32, 16),
+  new Enemy("Griffin", 95, 23, 10),
+  new Enemy("Minotaur", 105, 26, 14),
+  new Enemy("Phoenix", 140, 35, 18),
+  new Enemy("Chimera", 125, 30, 15),
+  new Enemy("Kraken", 150, 40, 20),
+  new Enemy("Cerberus", 115, 29, 14),
+  new Enemy("Wraith", 80, 21, 9),
+  new Enemy("Lich", 90, 22, 10),
 ];
